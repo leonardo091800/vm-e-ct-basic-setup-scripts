@@ -1,28 +1,27 @@
 #!/bin/bash
+log=setup.log
 
 # update
-sudo apt update
-sudo apt upgrade -y
-sudo apt install -y sudo net-tools vim build-essential htop fio curl dnsutils openssh-server rsync software-properties-common fail2ban qemu-guest-agent tree lsof lynis clamav
+apt update 1> $log
+apt upgrade -y 1>> $log
+apt install -y sudo net-tools vim build-essential htop fio curl dnsutils openssh-server rsync software-properties-common fail2ban qemu-guest-agent tree lsof lynis clamav 1>> $log
 
 # adjust time
-sudo ln -sf /usr/share/zoneinfo/Europe/Rome /etc/localtime
-sudo timedatectl set-timezone Europe/Rome
-sudo timedatectl set-ntp true
-sudo systemctl restart systemd-timesyncd.service
+#ln -sf /usr/share/zoneinfo/Europe/Rome /etc/localtime
+timedatectl set-timezone Europe/Rome 1>> $log
+timedatectl set-ntp true 1>> $log
+systemctl restart systemd-timesyncd.service 1>> $log
 
 # visual effects on vim
-sudo echo "syntax on" >> /etc/vim/vimrc
-sudo echo "colorscheme ron" >> /etc/vim/vimrc
-sudo echo "set hls" >> /etc/vim/vimrc
-sudo echo "set inc" >> /etc/vim/vimrc
+echo "syntax on" >> /etc/vim/vimrc
+echo "colorscheme ron" >> /etc/vim/vimrc
+echo "set hls" >> /etc/vim/vimrc
+echo "set inc" >> /etc/vim/vimrc
 
 # hardening
-sudo systemctl enable fail2ban 
-sudo systemctl start fail2ban
-sudo service ClamAV-freshclam start
-sudo freshclam
+systemctl enable fail2ban 1>> $log
+systemctl start fail2ban 1>> $log
+freshclam 1>> $log
 
 # reports
 # sudo echo "/usr/sbin/lynis --quick 2>&1 | mail -s 'Lynis Reports of XXX server' you@yourdomain.com" > /etc/cron.weekly/lynis-report.sh
-
