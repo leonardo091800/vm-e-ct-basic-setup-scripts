@@ -17,6 +17,7 @@ echo "syntax on" >> /etc/vim/vimrc
 echo "colorscheme ron" >> /etc/vim/vimrc
 echo "set hls" >> /etc/vim/vimrc
 echo "set inc" >> /etc/vim/vimrc
+echo "set nu" >> /etc/vim/vimrc
 
 # hardening
 systemctl enable fail2ban 1>> $log
