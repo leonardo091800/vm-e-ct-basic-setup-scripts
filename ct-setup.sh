@@ -4,7 +4,7 @@ log=setup.log
 # update
 apt update 1> $log
 apt upgrade -y 1>> $log
-apt install -y sudo net-tools vim build-essential htop fio curl dnsutils openssh-server rsync software-properties-common fail2ban qemu-guest-agent tree lsof lynis clamav 1>> $log
+apt install -y sudo net-tools vim build-essential htop fio curl dnsutils openssh-server rsync software-properties-common fail2ban qemu-guest-agent tree lsof lynis clamav psmisc 1>> $log
 
 # adjust time
 #ln -sf /usr/share/zoneinfo/Europe/Rome /etc/localtime
@@ -22,7 +22,9 @@ echo "set nu" >> /etc/vim/vimrc
 # hardening
 systemctl enable fail2ban 1>> $log
 systemctl start fail2ban 1>> $log
+systemctl stop clamav-freshclam 1>> $log
 freshclam 1>> $log
+systemctl start clamav-freshclam 1>> $log
 
 # reports
 # sudo echo "/usr/sbin/lynis --quick 2>&1 | mail -s 'Lynis Reports of XXX server' you@yourdomain.com" > /etc/cron.weekly/lynis-report.sh
